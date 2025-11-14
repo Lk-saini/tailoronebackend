@@ -1,4 +1,3 @@
-// utils/sendOtp.js
 import nodemailer from "nodemailer";
 import sendinBlueTransport from "nodemailer-sendinblue-transport";
 
