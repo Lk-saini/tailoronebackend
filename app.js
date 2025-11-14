@@ -14,7 +14,8 @@ const app = express();
 // ✅ CORS Configuration
 const allowedOrigins = [
   "http://localhost:3000",     // for local development
-  "https://tailorone.co.in",   // your live frontend
+  "https://tailorone.co.in",
+   "http://localhost:5173/"// your live frontend
 ];
 
 app.use(
