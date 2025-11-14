@@ -1,27 +1,36 @@
-// utils/sendOtp.js
 import nodemailer from "nodemailer";
+import sendinBlueTransport from "nodemailer-sendinblue-transport";
 
 export const sendOtp = async (email, otp) => {
   try {
-    // Gmail transporter setup
-    const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: "manishnagar80828@gmail.com",       // Yaha apna Gmail daalo
-        pass: "jshk ijdl xnun nxrg"          // Gmail app password daalo
-      }
-    });
+    // 🔹 Brevo transporter setup
+    const transporter = nodemailer.createTransport(
+      new sendinBlueTransport({
+        apiKey: "your_brevo_api_key", // ⬅️ Yahan apni Brevo API key daalo
+      })
+    );
 
+    // 🔹 Email details
     const mailOptions = {
-      from: '"TailorOne 👕" <manishnagar80828@gmail.com>',
+      from: "manishnagar80828@gmail.com", // Brevo verified sender email
       to: email,
-      subject: "Your OTP for TailorOne",
-      text: `Your OTP is ${otp}. It will expire in 10 minutes.`
+      subject: "Your OTP Code - TailorOne",
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333;">
+          <h2>TailorOne OTP Verification</h2>
+          <p>Dear User,</p>
+          <p>Your OTP code is: <b>${otp}</b></p>
+          <p>This code will expire in 5 minutes.</p>
+          <br />
+          <p>Best regards,<br/>TailorOne Team</p>
+        </div>
+      `,
     };
 
+    // 🔹 Send email
     await transporter.sendMail(mailOptions);
-    console.log(`OTP sent to ${email}: ${otp}`);
-  } catch (err) {
-    console.log("Error sending OTP:", err.message);
+    console.log("✅ OTP email sent via Brevo!");
+  } catch (error) {
+    console.error("❌ Error sending OTP:", error);
   }
 };
